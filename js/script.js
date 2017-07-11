@@ -1,159 +1,186 @@
-var $cc1 = $('#clicks1');
-var $cc2 = $('#clicks2');
-var $cc3 = $('#clicks3');
-var $cc4 = $('#clicks4');
-var $cc5 = $('#clicks5');
-var $cc6 = $('#clicks6');
+/* ======= Model ======= */
+
+var model = {
+    currentCat: null,
+    adminMode : false,
+    cats: [
+        {
+            clickCount : 0,
+            name : 'Abby',
+            imgSrc : "http://lorempixel.com/500/500/cats/1",
+        },
+        {
+            clickCount : 0,
+            name : 'Bob',
+            imgSrc : "http://lorempixel.com/500/500/cats/2",
+        },
+        {
+            clickCount : 0,
+            name : 'Carol',
+            imgSrc : "http://lorempixel.com/500/500/cats/3",
+        },
+        {
+            clickCount : 0,
+            name : 'Doggy',
+            imgSrc : "http://lorempixel.com/500/500/cats/4",
+        },
+        {
+            clickCount : 0,
+            name : 'Emma',
+            imgSrc : "http://lorempixel.com/500/500/cats/5",
+        }
+    ]
+};
 
 
-var $ct1 = $('#catname1');
-var $ct2 = $('#catname2');
-var $ct3 = $('#catname3');
-var $ct4 = $('#catname4');
-var $ct5 = $('#catname5');
-var $ct6 = $('#catname6');
+/* ======= Octopus ======= */
 
-var $main = $('#main');
+var octopus = {
 
-var cat1 = {
-    name : "Annie",
-    click : 0
+    init: function() {
+        // set our current cat to the first one in the list
+        model.currentCat = model.cats[0];
+
+        // tell our views to initialize
+        catListView.init();
+        catView.init();
+        admin.init();
+    },
+
+    getCurrentCat: function() {
+        return model.currentCat;
+    },
+
+    getCats: function() {
+        return model.cats;
+    },
+
+    // set the currently-selected cat to the object passed in
+    setCurrentCat: function(cat) {
+        model.currentCat = cat;
+    },
+
+    // increments the counter for the currently-selected cat
+    incrementCounter: function() {
+        model.currentCat.clickCount++;
+        catView.render();
+    },
+    openAdmin:function(){
+        model.adminMode =true;
+        admin.render();
+    },
+    closeAdmin:function(){
+        model.adminMode =false;
+        admin.render();
+    },
+    updateAdmin:function(){
+        if($('#newName').val()) model.currentCat.name = $('#newName').val();
+        if($('#newURL').val()) model.currentCat.imgSrc = $('#newURL').val();
+        if($('#newClicks').val()) model.currentCat.clickCount = $('#newClicks').val();
+        catListView.render();
+        catView.render();
+
+    }
+};
+
+
+/* ======= View ======= */
+
+var admin={
+    init:function(){
+        this.adminButtonElem = document.getElementById('admin');
+        this.form = document.getElementById('form')
+        $('form').hide()
+        // admin mode on click
+        this.adminButtonElem.addEventListener('click',function(){
+            console.log("here?")
+            if( model.adminMode == false) octopus.openAdmin();
+            else octopus.closeAdmin();
+        })
+        this.submitButtonElem = document.getElementById('submit');
+
+        this.submitButtonElem.addEventListener('click',function(){
+            octopus.updateAdmin()
+        })
+
+    },
+    render: function(){
+        if( model.adminMode == false){ $('form').hide()}
+        else if(model.adminMode == true) {$('form').show()}
+    }
 }
 
-var cat2 = {
-    name : "Bob",
-    click : 0
-}
-var cat3 = {
-    name : "Carter",
-    click : 0
-}
 
-var cat4 = {
-    name : "Dick",
-    click : 0
-}
-var cat5 = {
-    name : "Emma",
-    click : 0
-}
+var catView = {
 
-var cat6 = {
-    name : "Flynne",
-    click : 0
-}
- $ct1.text(cat1.name)
- $ct2.text(cat2.name)
- $ct3.text(cat3.name)
- $ct4.text(cat4.name)
- $ct5.text(cat5.name)
- $ct6.text(cat6.name)
-
-//first cat
-$('#c1').click(function() {
-   if($('#c1').is(':checked')) {
-	  var str = '<img id="cat1" src="http://lorempixel.com/500/500/cats/1" /> <h3>Number of Click : </h3><h3 id="clicks1"> %s </h3>'
-	  var stri = str.replace('%s',cat1.click)
-    $("#main").empty()
-   	$("#main").append(stri)
-
-}});
-
-$('#main').on('click','img#cat1',function(){
-  cat1.click++;
-  $cc1.text(cat1.click);
-  $("#clicks1").empty()
-  $("#clicks1").append(cat1.click) 
-})
+    init: function() {
+        // store pointers to our DOM elements for easy access later
+        this.catElem = document.getElementById('cat');
+        this.catNameElem = document.getElementById('cat-name');
+        this.catImageElem = document.getElementById('cat-img');
+        this.countElem = document.getElementById('cat-count');
+        // on click, increment the current cat's counter
+        this.catImageElem.addEventListener('click', function(){
+            octopus.incrementCounter();
+        });
 
 
 
-//second cat
-$('#c2').click(function() {
-   if($('#c2').is(':checked')) {
-    var str = '<img id="cat2" src="http://lorempixel.com/500/500/cats/2" /> <h3>Number of Click : </h3><h3 id="clicks2"> %s </h3>'
-    var stri = str.replace('%s',cat2.click)
-    $("#main").empty()
-    $("#main").append(stri)
+        // render this view (update the DOM elements with the right values)
+        this.render();
+    },
 
-}});
+    render: function() {
+        // update the DOM elements with values from the current cat
+        var currentCat = octopus.getCurrentCat();
+        this.countElem.textContent = currentCat.clickCount;
+        this.catNameElem.textContent = currentCat.name;
+        this.catImageElem.src = currentCat.imgSrc;
+    }
+};
 
-//third cat
-$('#main').on('click','img#cat2',function(){
-  cat2.click++;
-  $cc2.text(cat2.click);
-  $("#clicks2").empty()
-  $("#clicks2").append(cat2.click) 
-})
+var catListView = {
 
+    init: function() {
+        // store the DOM element for easy access later
+        this.catListElem = document.getElementById('cat-list');
 
-//////////////third cat
-$('#c3').click(function() {
-   if($('#c3').is(':checked')) {
-    var str = '<img id="cat3" src="http://lorempixel.com/500/500/cats/3" /> <h3>Number of Click : </h3><h3 id="clicks3"> %s </h3>'
-    var stri = str.replace('%s',cat3.click)
-    $("#main").empty()
-    $("#main").append(stri)
+        // render this view (update the DOM elements with the right values)
+        this.render();
+    },
 
-}});
+    render: function() {
+        var cat, elem, i;
+        // get the cats we'll be rendering from the octopus
+        var cats = octopus.getCats();
 
-$('#main').on('click','img#cat3',function(){
-  cat3.click++;
-  $cc3.text(cat3.click);
-  $("#clicks3").empty()
-  $("#clicks3").append(cat3.click) 
-})
+        // empty the cat list
+        this.catListElem.innerHTML = '';
 
+        // loop over the cats
+        for (i = 0; i < cats.length; i++) {
+            // this is the cat we're currently looping over
+            cat = cats[i];
 
-//////////////FOURTH cat
-$('#c4').click(function() {
-   if($('#c4').is(':checked')) {
-    var str = '<img id="cat4" src="http://lorempixel.com/500/500/cats/4" /> <h3>Number of Click : </h3><h3 id="clicks4"> %s </h3>'
-    var stri = str.replace('%s',cat4.click)
-    $("#main").empty()
-    $("#main").append(stri)
+            // make a new cat list item and set its text
+            elem = document.createElement('li');
+            elem.textContent = cat.name;
 
-}});
+            // on click, setCurrentCat and render the catView
+            // (this uses our closure-in-a-loop trick to connect the value
+            //  of the cat variable to the click event function)
+            elem.addEventListener('click', (function(catCopy) {
+                return function() {
+                    octopus.setCurrentCat(catCopy);
+                    catView.render();
+                };
+            })(cat));
 
-$('#main').on('click','img#cat4',function(){
-  cat4.click++;
-  $cc4.text(cat4.click);
-  $("#clicks4").empty()
-  $("#clicks4").append(cat4.click) 
-})
+            // finally, add the element to the list
+            this.catListElem.appendChild(elem);
+        }
+    }
+};
 
-
-//////////////FIFTH cat
-$('#c5').click(function() {
-   if($('#c5').is(':checked')) {
-    var str = '<img id="cat5" src="http://lorempixel.com/500/500/cats/5" /> <h3>Number of Click : </h3><h3 id="clicks5"> %s </h3>'
-    var stri = str.replace('%s',cat5.click)
-    $("#main").empty()
-    $("#main").append(stri)
-
-}});
-
-$('#main').on('click','img#cat5',function(){
-  cat5.click++;
-  $cc5.text(cat5.click);
-  $("#clicks5").empty()
-  $("#clicks5").append(cat5.click) 
-})
-
-//////////////SIXTH cat
-$('#c6').click(function() {
-   if($('#c6').is(':checked')) {
-    var str = '<img id="cat6" src="http://lorempixel.com/600/600/cats/6" /> <h3>Number of Click : </h3><h3 id="clicks6"> %s </h3>'
-    var stri = str.replace('%s',cat6.click)
-    $("#main").empty()
-    $("#main").append(stri)
-
-}});
-
-$('#main').on('click','img#cat6',function(){
-  cat6.click++;
-  $cc6.text(cat6.click);
-  $("#clicks6").empty()
-  $("#clicks6").append(cat6.click) 
-})
-
+// make it go!
+octopus.init();

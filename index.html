@@ -8,49 +8,24 @@
 </head>
 
 <body>
+	<ul id="cat-list"></ul>
+	<div id ="cat">
+		<h2 id="cat-name"></h2>
+		<div id ="cat-count"></div>
+		<img id ="cat-img"></img>
+	</div>
+	<button id="admin" type="button">Admin Mode</button>
 
-<div class="container">
-  <div class="row greeting">
-    <h2 id="greeting" >Cat Clicker</h2>
-    <form action = "" id=form>
-      <div class ="col-md-2">
-        <h1 id="catname1"></h1>
-        <img id="target1" src="http://lorempixel.com/100/100/cats/1" /><br>
-        <input type="radio" name="catselect" id=c1>
-      </div>
-      <div class ="col-md-2">
-        <h1 id="catname2"></h1>
-        <img id="target2" src="http://lorempixel.com/100/100/cats/2" /><br>
-        <input type="radio" name="catselect" id=c2>
-      </div>
-      <div class ="col-md-2">
-        <h1 id="catname3"></h1>
-        <img id="target3" src="http://lorempixel.com/100/100/cats/3" /><br>
-        <input type="radio" name="catselect" id=c3>
-      </div>
-      <div class ="col-md-2">
-        <h1 id="catname4"></h1>
-        <img id="target4" src="http://lorempixel.com/100/100/cats/4" /><br>
-        <input type="radio" name="catselect" id=c4>
-      </div>
-      <div class ="col-md-2">
-        <h1 id="catname5"></h1>
-        <img id="target5" src="http://lorempixel.com/100/100/cats/5" /><br>
-        <input type="radio" name="catselect" id=c5>
-      </div>
-      <div class ="col-md-2">
-        <h1 id="catname6"></h1>
-        <img id="target6" src="http://lorempixel.com/100/100/cats/6" /><br>
-        <input type="radio" name="catselect" id=c6>
-      </div>
-    </form>
-  </div>
-  <div class="row greeting">
-    <div class="col-md-12" id="main">
+	<form id="form">
+		  <input type="text" id="newName" placeholder="New Name">
+		  <input type="text" id="newURL" placeholder="New img url">
+		  <input type="text" id="newClicks" placeholder="New num clicks">
+		  <button id="submit" type="button">Submit</button>
+		  <input type="submit" id="cancel" value="Cancel">
 
-    </div>
-  </div>
-</div>
+	</form>
+
+
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/script.js"></script>
 </body>

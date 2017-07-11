@@ -1,103 +1,159 @@
 var $cc1 = $('#clicks1');
 var $cc2 = $('#clicks2');
+var $cc3 = $('#clicks3');
+var $cc4 = $('#clicks4');
+var $cc5 = $('#clicks5');
+var $cc6 = $('#clicks6');
+
 
 var $ct1 = $('#catname1');
 var $ct2 = $('#catname2');
+var $ct3 = $('#catname3');
+var $ct4 = $('#catname4');
+var $ct5 = $('#catname5');
+var $ct6 = $('#catname6');
+
+var $main = $('#main');
 
 var cat1 = {
-    name : "Pussy",
+    name : "Annie",
     click : 0
 }
 
 var cat2 = {
-    name : "Asshole",
+    name : "Bob",
+    click : 0
+}
+var cat3 = {
+    name : "Carter",
+    click : 0
+}
+
+var cat4 = {
+    name : "Dick",
+    click : 0
+}
+var cat5 = {
+    name : "Emma",
+    click : 0
+}
+
+var cat6 = {
+    name : "Flynne",
     click : 0
 }
  $ct1.text(cat1.name)
  $ct2.text(cat2.name)
+ $ct3.text(cat3.name)
+ $ct4.text(cat4.name)
+ $ct5.text(cat5.name)
+ $ct6.text(cat6.name)
 
+//first cat
+$('#c1').click(function() {
+   if($('#c1').is(':checked')) {
+	  var str = '<img id="cat1" src="http://lorempixel.com/500/500/cats/1" /> <h3>Number of Click : </h3><h3 id="clicks1"> %s </h3>'
+	  var stri = str.replace('%s',cat1.click)
+    $("#main").empty()
+   	$("#main").append(stri)
 
-$( "#target1" ).click(function() {
+}});
+
+$('#main').on('click','img#cat1',function(){
   cat1.click++;
   $cc1.text(cat1.click);
-});
+  $("#clicks1").empty()
+  $("#clicks1").append(cat1.click) 
+})
 
-$( "#target2" ).click(function() {
+
+
+//second cat
+$('#c2').click(function() {
+   if($('#c2').is(':checked')) {
+    var str = '<img id="cat2" src="http://lorempixel.com/500/500/cats/2" /> <h3>Number of Click : </h3><h3 id="clicks2"> %s </h3>'
+    var stri = str.replace('%s',cat2.click)
+    $("#main").empty()
+    $("#main").append(stri)
+
+}});
+
+//third cat
+$('#main').on('click','img#cat2',function(){
   cat2.click++;
   $cc2.text(cat2.click);
-});
+  $("#clicks2").empty()
+  $("#clicks2").append(cat2.click) 
+})
 
 
-function loadData() {
+//////////////third cat
+$('#c3').click(function() {
+   if($('#c3').is(':checked')) {
+    var str = '<img id="cat3" src="http://lorempixel.com/500/500/cats/3" /> <h3>Number of Click : </h3><h3 id="clicks3"> %s </h3>'
+    var stri = str.replace('%s',cat3.click)
+    $("#main").empty()
+    $("#main").append(stri)
 
-    var $body = $('body');
-    var $wikiElem = $('#wikipedia-links');
-    var $nytHeaderElem = $('#nytimes-header');
-    var $nytElem = $('#nytimes-articles');
-    var $greeting = $('#greeting');
+}});
 
-    // clear out old data before new request
-    $wikiElem.text("");
-    $nytElem.text("");
-
-    // load streetview
-    var city = $('#city').val()
-    var street = $('#street').val()
-
-    var str = '<img class="bgimg" src="http://maps.googleapis.com/maps/api/streetview?size=600x300&location=%s, %c">'
-    var string = str.replace('%s',street)
-    var stringg = string.replace('%c',city)
-
-    //console.log(stringg)
-    // YOUR CODE GOES HERE!
-    $greeting.text('so you wanna live ' + street + ', ' + city + '?')
-    $body.append(stringg);
-
-    var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-    url += '?' + $.param({
-      'api-key': "992dabd260ab48fd98b52d6ee986d8a0",
-      'q': city
-    });
-
-    $.getJSON(url,function(data){
-        $nytHeaderElem.text('NYT articles about ' + city)
-
-        var articles = data.response.docs.map(function (x){
-            var str = '<li class="article">%s</li>'
-            var obj = '<a href =' + `'` + x.web_url + `'>`+ x.headline.main+'</a>'
-                    +'<p>' + x.snippet + '</p>'
-            var strr = str.replace('%s',obj)
-            return strr
-        })
-        $('#nytimes-articles').append(articles)
-    }).fail(function(){
-        $nytHeaderElem.text('NYT articles cannot be found')
-    })
-
-    var wikiRequestTimeout = setTimeout(function(){
-        $wikiElem.text('API Call Failed');
-    },5000)
-
-    $.ajax({
-        url: "https://en.wikipedia.org/w/api.php?action=opensearch&search="
-        +city + '&format=json&callback=wikiCallback',
-        dataType: 'jsonp',
-        success: function(data){
-            console.log(data)
-            var links = [];
-            for(var x = 0 ; x < 10; x++){
-                var str = '<li><a href="'+ data[3][x] + '">' +
-                data[1][x]+'</a></li>'
-                links.push(str)
-            }
+$('#main').on('click','img#cat3',function(){
+  cat3.click++;
+  $cc3.text(cat3.click);
+  $("#clicks3").empty()
+  $("#clicks3").append(cat3.click) 
+})
 
 
-            $('#wikipedia-links').append(links)
-            clearTimeout(wikiRequestTimeout)
-        }
-    })
+//////////////FOURTH cat
+$('#c4').click(function() {
+   if($('#c4').is(':checked')) {
+    var str = '<img id="cat4" src="http://lorempixel.com/500/500/cats/4" /> <h3>Number of Click : </h3><h3 id="clicks4"> %s </h3>'
+    var stri = str.replace('%s',cat4.click)
+    $("#main").empty()
+    $("#main").append(stri)
 
-    return false;
-};
+}});
 
-$('#form-container').submit(loadData);
+$('#main').on('click','img#cat4',function(){
+  cat4.click++;
+  $cc4.text(cat4.click);
+  $("#clicks4").empty()
+  $("#clicks4").append(cat4.click) 
+})
+
+
+//////////////FIFTH cat
+$('#c5').click(function() {
+   if($('#c5').is(':checked')) {
+    var str = '<img id="cat5" src="http://lorempixel.com/500/500/cats/5" /> <h3>Number of Click : </h3><h3 id="clicks5"> %s </h3>'
+    var stri = str.replace('%s',cat5.click)
+    $("#main").empty()
+    $("#main").append(stri)
+
+}});
+
+$('#main').on('click','img#cat5',function(){
+  cat5.click++;
+  $cc5.text(cat5.click);
+  $("#clicks5").empty()
+  $("#clicks5").append(cat5.click) 
+})
+
+//////////////SIXTH cat
+$('#c6').click(function() {
+   if($('#c6').is(':checked')) {
+    var str = '<img id="cat6" src="http://lorempixel.com/600/600/cats/6" /> <h3>Number of Click : </h3><h3 id="clicks6"> %s </h3>'
+    var stri = str.replace('%s',cat6.click)
+    $("#main").empty()
+    $("#main").append(stri)
+
+}});
+
+$('#main').on('click','img#cat6',function(){
+  cat6.click++;
+  $cc6.text(cat6.click);
+  $("#clicks6").empty()
+  $("#clicks6").append(cat6.click) 
+})
+
